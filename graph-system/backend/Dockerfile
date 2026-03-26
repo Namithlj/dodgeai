@@ -10,6 +10,7 @@ RUN npm ci --only=production
 
 # Copy source code
 COPY src ./src
+COPY sap-o2c-data ./sap-o2c-data
 
 # Expose port
 EXPOSE 4000

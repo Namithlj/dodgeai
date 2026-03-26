@@ -8,7 +8,7 @@ function required(name) {
 
 const DATA_ROOT = process.env.DATA_ROOT
   ? path.resolve(process.env.DATA_ROOT)
-  : path.resolve(__dirname,"sap-o2c-data");
+  : path.resolve(__dirname,"..","sap-o2c-data");
 
 const NEO4J_URI = process.env.NEO4J_URI || "neo4j://localhost:7687";
 const NEO4J_USER = process.env.NEO4J_USER || "neo4j";
