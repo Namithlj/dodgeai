@@ -223,7 +223,7 @@ export default function App() {
           />
         </div>
 
-        <div className="absolute left-3 bottom-3 w-[360px] bg-gray-900/80 border border-gray-800 rounded-lg p-3">
+        <div className="absolute left-3 bottom-3 w-[360px] bg-gray-900/95 backdrop-blur-md border border-gray-700 rounded-lg p-3 text-gray-200 shadow-lg">
           <div className="text-sm font-semibold text-gray-200">Node Inspector</div>
           <div className="mt-2 text-[11px] text-gray-400">
             Graph: <span className="text-gray-200 font-semibold">{graphStatus.nodes}</span> nodes
