@@ -1,0 +1,52 @@
+# Render deployment manifest for dodgeai graph-app
+# 1) Neo4j service (Docker)
+# 2) Backend service (Node.js Express)
+# 3) Frontend service (Vite static site)
+
+services:
+  - type: web
+    name: dodgeai-neo4j
+    environment: docker
+    branch: main
+    dockerfilePath: .
+    buildCommand: ""  # no build needed for Neo4j image
+    startCommand: "docker run --rm -p 7687:7687 -p 7474:7474 -e NEO4J_AUTH=neo4j/neo4j-pass-graph-system neo4j:5.14"
+    env:
+      - key: NEO4J_AUTH
+        value: "neo4j/neo4j-pass-graph-system"
+
+  - type: web
+    name: dodgeai-backend
+    environment: node
+    branch: main
+    rootDir: graph-system/backend
+    buildCommand: npm install
+    startCommand: npm start
+    env:
+      - key: PORT
+        value: "10000"
+      - key: NEO4J_URI
+        value: "neo4j://dodgeai-neo4j:7687"
+      - key: NEO4J_USER
+        value: "neo4j"
+      - key: NEO4J_PASSWORD
+        value: "neo4j-pass-graph-system"
+      - key: LLM_PROVIDER
+        value: "openrouter"
+      - key: LLM_API_KEY
+        value: "<YOUR_OPENROUTER_KEY>"
+      - key: LLM_MODEL
+        value: "meta-llama/llama-3.1-70b-instruct"
+      - key: DATA_ROOT
+        value: "/opt/render/project/src/sap-o2c-data"
+
+  - type: static
+    name: dodgeai-frontend
+    environment: static
+    branch: main
+    rootDir: graph-system/frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    env:
+      - key: VITE_BACKEND_URL
+        value: "https://dodgeai-backend.onrender.com"
