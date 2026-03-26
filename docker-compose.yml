@@ -13,14 +13,14 @@ services:
   backend:
     build:
       context: ./graph-system/backend
-    command: npm start
+      dockerfile: Dockerfile
     ports:
       - "4000:4000"
     depends_on:
-      - neo4j
+      neo4j:
+        condition: service_started
     volumes:
       - ./sap-o2c-data:/app/sap-o2c-data:ro
-      - ./graph-system/backend:/app
     environment:
       PORT: 4000
       NEO4J_URI: "neo4j://neo4j:7687"
